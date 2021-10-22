@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebStorage</title>
+    <link href="../Content/Bootstrap.css" rel="stylesheet" />
+    <link href="../Content/StoringData.css" rel="stylesheet" />
+
+</head>
+
+<script>
+
+
+    function getLocalStorage() {
+        console.log(localStorage.getItem("localData"));
+       document.getElementById("localStorageValue").innerText=  localStorage.getItem("localData");
+     }
+
+    function setLocalStorage() {
+        let data = document.getElementById("localData").value;
+        localStorage.setItem("localData", data);
+        document.getElementById("localData").value= "";
+
+        // Adding some more arraay of data
+       let list = ["CSK" , "MI", "RCB" , "DC", "KKR" , "RJ" , "PSK"  ]
+       for ( i = 0 ; i<= list.length; i++) {
+          localStorage.setItem("IPL" + i  , list[i]);
+      }       
+
+    }
+    function setSessionStorage() {
+        let data = document.getElementById("sessionData").value;
+        sessionStorage.setItem("sessionData",data)
+        document.getElementById("sessionData").value= "";
+  
+      //adding some more array data :
+      let list = ["LH", "BA" , "AA" ,"DL" , "NZ", "AIR INDIA","UA" ,"SQ"];
+
+      for ( i = 0 ; i<= list.length; i++) {
+          sessionStorage.setItem("Flights" + i  , list[i]);
+      }
+
+    }
+
+    function getSessionStorage() {
+        console.log(localStorage.getItem("sessionData"));
+       document.getElementById("sessionStorageValue").innerText =sessionStorage.getItem("sessionData");
+    }
+
+ // since Local storage has more than one data,  we will have to retrieve based on key;
+
+
+   function getAllLocalStorage() { 
+       let dataHtml = "";
+       for ( i= 0; i < localStorage.length ; i++ ) {
+           dataHtml += " <p> " + localStorage.getItem(localStorage.key(i)) + "</p>";
+           
+       }
+       console.log(dataHtml);
+       document.getElementById("localAllStorageValue").innerHTML = dataHtml;
+
+   }
+
+   function getAllSessionStorage() {
+ 
+         let dataHtml = "";
+         for (i = 0 ; i < sessionStorage.length ; i++){
+              dataHtml +=  "<p>" + sessionStorage.getItem(sessionStorage.key(i))  + "</p>" ;
+         }
+         document.getElementById("sessionAllStorageValue").innerHTML = dataHtml;
+   }
+
+   function deleteLocalStorage () {
+          localStorage.removeItem("localData");
+   }
+
+   function deleteAllLocalStorage() {
+       localStorage.clear();
+   }
+
+   function deleteSessionStorage() {
+
+            sessionStorage.removeItem("sessionData");
+   }
+
+   function detelteAllSessionStorage () {
+          sessionStorage.clear();
+   }
+
+   function setJsonData() {
+        let fruitsAndVeg = {
+            fruits : [
+              {name : "Kiwi" , color : "Green"},
+              {name : "Orange" , color : "Orange"},
+              {name : "Apple" , color : "Red"},
+              {name : "Grapes" , color : "blue"},
+              {name : "Mango" , color : "Yellow"},
+              {name : "strawberries" , color : "red"}
+            ],
+            veg : [ 
+                { name : "Potato"  , color : "Yellow"},
+                { name : "Tomato"  , color : "Red"},
+                { name : "Pumbkin"  , color : "Orange"},
+                { name : "Spinach"  , color : "Green"},
+                { name : "Mushroom"  , color : "White"}
+            ] 
+        };
+
+        let stringData = JSON.stringify(fruitsAndVeg);
+        console.log(fruitsAndVeg);
+        console.log(stringData);
+        localStorage.setItem("fruitsAndVeg" , stringData);
+
+   }
+
+   function getJsonData(){
+
+        let fromData = localStorage.getItem("fruitsAndVeg");
+        let toData = JSON.parse(fromData);
+        console.log(fromData);
+        console.log(toData);
+        
+
+   }
+</script>
+
+<body>
+
+    <div class="container">
+        <h4>Local Storage</h4>
+        <div class="p-4 mb-5 storageContainer">
+            <div class="row mb-3">
+                <div class="col-8">
+                    <input type="text" class="form-control mr-2" id="localData" />
+                </div>
+                <div class="col-4">
+                    <button class="btn setButton" type="button" onclick="setLocalStorage()">Set Local Data</button>
+                </div>
+            </div>
+            <div class="row">
+                 <div class="col-6">
+                    <button class="btn getButton" onclick="getLocalStorage()">Get Local Data</button>
+                    <button class="btn getButton" onclick="getAllLocalStorage()">Get All Local Data</button>                    
+                    <button class="btn getButton" onclick="deleteLocalStorage()">Delete Local Data</button>
+                    <button class="btn getButton" onclick="deleteAllLocalStorage()">Delete All Local Data</button>                    
+                </div>
+                <div class="col pl-5">
+                    <div class="getText" id="localStorageValue"></div>
+                    <div class="getText" id="localAllStorageValue"></div>
+                </div>
+            </div>
+        </div>
+        <h4>Session Storage</h4>
+        <div class="p-4 storageContainer">
+            <div class="row mb-3">
+                <div class="col-8">
+                    <input type="text" class="form-control mr-2" id="sessionData" />
+                </div>
+                <div class="col-4">
+                    <button class="btn setButton" type="button" onclick="setSessionStorage()">Set Session Data</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <button class="btn getButton" onclick="getSessionStorage()">Get Session Data</button>
+                    <button class="btn getButton" onclick="getAllSessionStorage()">Get All Session Data</button>    
+                    <button class="btn getButton" onclick="deleteSessionStorage()">Delete Local Data</button>
+                    <button class="btn getButton" onclick="detelteAllSessionStorage()">Delete All Local Data</button>                                    
+                </div>
+                <div class="col pl-5">
+                    <div class="getText" id="sessionStorageValue"></div>
+                    <div class="getText" id="sessionAllStorageValue"></div>
+                </div>
+            </div>
+        </div>
+
+        <h4>JSON Examples</h4>
+        <div class="p-4 storageContainer">
+            <div class="row mb-3">
+                     <button class="btn setButton" type="button" onclick="setJsonData()">Set JSON Data</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <button class="btn getButton" onclick="getJsonData()">Get JSON Data</button>
+                 </div>
+                <div class="col pl-5">
+                    <div class="getText" id="JsonData"></div>
+                </div>
+            </div>
+        </div>
+    </div>    
+</body>
+</html>
